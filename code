@@ -1,0 +1,140 @@
+library(tidyverse)
+library(ggrepel)
+library(ggimage)
+library(gt)
+library(caret)
+library(nflfastR)
+options(scipen = 9999)
+fourth_quarter_spikes <- load_pbp(2012:2021) %>%
+  filter(qb_spike == 1) %>%
+  filter(qtr == 4) %>%
+  filter(score_differential >=-8)
+second_quarter_spikes <- load_pbp(2012:2021) %>%
+  filter(qb_spike == 1) %>%
+  filter(qtr == 2)
+second_quarter_spikes %>%
+  ggplot(aes(x=epa, y=wpa)) +
+  geom_point(color = 'black', shape = 1) +
+  geom_hline(yintercept = mean(second_quarter_spikes$epa), color = 'red') +
+  geom_hline(yintercept = 0) +
+  geom_vline(xintercept = mean(second_quarter_spikes$wpa), color = 'red') +
+  geom_vline(xintercept = 0) +
+  labs(x = "EPA",
+       y = "WPA",
+       title = "EPA and WPA on Second Quarter Spikes",
+       caption = "Data: nflfastR") +
+  theme(plot.title = element_text(size = 12, face = "bold", hjust = 0.5))
+fourth_quarter_spikes %>%
+  ggplot(aes(x=epa, y=wpa)) +
+  geom_point(color = "black", shape = 1) +
+  geom_hline(yintercept = mean(fourth_quarter_spikes$epa), color = 'red') +
+  geom_hline(yintercept = 0) +
+  geom_vline(xintercept = mean(fourth_quarter_spikes$wpa), color = 'red') +
+  geom_vline(xintercept = 0) +
+  labs(x = "EPA",
+       y = "WPA",
+       title = "EPA and WPA on Fourth Quarter Spikes",
+       caption = "Data: nflfastR") +
+  theme(plot.title = element_text(size = 12, face = "bold", hjust = 0.5))
+fourth_quarter_spikes %>% 
+  select(posteam, defteam, time, yrdln, score_differential, epa, wpa, fg_prob) %>%
+  filter(score_differential >= -3) %>%
+  arrange(time)
+fourth_quarter_spikes %>% 
+  select(posteam, defteam, time, yrdln, score_differential, epa, wpa, fg_prob) %>%
+  filter(score_differential >= -3) %>%
+  arrange(-fg_prob)
+fourth_quarter_spikes %>%
+  select(posteam, defteam, time, yrdln, score_differential, epa, wpa, td_prob) %>%
+  filter(score_differential <= -4 & score_differential >= -8) %>%
+  arrange(time)
+fourth_quarter_spikes %>%
+  select(posteam, defteam, time, yrdln, score_differential, epa, wpa, td_prob) %>%
+  filter(score_differential <= -4 & score_differential >= -8) %>%
+  arrange(-td_prob)
+fourth_quarter_spikes %>%
+  select(epa, score_differential) %>%
+  filter(score_differential >= -3) %>%
+  filter(epa < 0)
+fourth_quarter_spikes %>%
+  select(epa, score_differential) %>%
+  filter(score_differential <= -4 & score_differential >= -8) %>%
+  filter(epa < 0)
+fourth_quarter_spikes %>%
+  select(posteam, defteam, posteam_score, defteam_score, time, yrdln, epa, fg_prob, score_differential) %>%
+  filter(score_differential > -3) %>%
+  arrange(-fg_prob)
+fourth_quarter_spikes %>%
+  filter(score_differential >= -3) %>%
+  ggplot(aes(x=epa, y=fg_prob)) +
+  geom_point(color = 'black', shape = 1) +
+  geom_vline(xintercept = 0, color = 'red') +
+  geom_smooth(se = FALSE, color = "black", method = "lm") +
+  labs(x= 'EPA',
+       y='Field Goal Probability',
+       title = 'EPA and Field Goal Probability',
+       caption = 'Data: nflfastR')
+fourth_quarter_spikes %>%
+  filter(score_differential >= -8 & score_differential <=-4) %>%
+  ggplot(aes(x=epa, y=td_prob)) +
+  geom_point(color = 'black', shape = 1) +
+  geom_smooth(se = FALSE, color = 'black', method = 'lm') +
+  labs(x= 'EPA',
+       y='Touchdown Probability',
+       title = 'EPA and Touchdown Probability',
+       caption = 'Data: nflfastR')
+fourth_quarter_spikes <- fourth_quarter_spikes %>%
+  left_join(teams_colors_logos, by = c("posteam" = "team_abbr"))
+second_quarter_spikes <- second_quarter_spikes %>%
+  left_join(teams_colors_logos, by = c("posteam" = "team_abbr"))
+fourth_quarter_spikes %>%
+  ggplot(aes(x=epa, y=wpa)) +
+  geom_image(aes(image = team_logo_espn), size = .05) +
+  geom_hline(yintercept = 0) +
+  geom_vline(xintercept = 0) +
+  labs(x = "Fourth Quarter Spike EPA",
+       y = "Fourth Quarter Spike WPA",
+       title = "EPA and WPA for Fourth Quarter Spikes",
+       caption = "Data: nflfastR") +
+  theme(plot.title = element_text(size = 12, face = "bold", hjust = 0.5))
+second_quarter_spikes %>%
+  ggplot(aes(x=epa, y=wpa)) +
+  geom_image(aes(image = team_logo_espn), size = .05) +
+  geom_hline(yintercept = 0) +
+  geom_vline(xintercept = 0) +
+  labs(x = "Second Quarter Spike EPA",
+       y = "Second Quarter Spike WPA",
+       title = "EPA and WPA for Second Quarter Spikes",
+       caption = "Data: nflfastR") +
+  theme(plot.title = element_text(size = 12, face = "bold", hjust = 0.5))
+fourth_quarter_spikes %>%
+  select(posteam, epa, wpa) %>%
+  group_by(posteam) %>%
+  summarise(avg_epa = mean(epa), avg_wpa = mean(wpa)) %>%
+  arrange(-avg_epa)
+fourth_quarter_spikes %>%
+  select(posteam, epa, wpa) %>%
+  group_by(posteam) %>%
+  summarise(avg_epa = mean(epa), avg_wpa = mean(wpa)) %>%
+  left_join(teams_colors_logos, by = c('posteam' = 'team_abbr')) %>%
+  ggplot(aes(x=avg_epa, y=avg_wpa)) +
+  geom_image(aes(image = team_logo_espn), size = 0.05) +
+  labs(x= "EPA",
+       y = "WPA",
+       title = "Average Fourth Quarter Spike EPA and WPA by team",
+       caption = "Data: nflfastR") +
+  theme(plot.title = element_text(size = 10, face = "bold", hjust = 0.5)) +
+  geom_segment(aes(x = mean(avg_epa), y = mean(avg_wpa), xend = mean(avg_epa), yend = 0.01)) +
+  geom_segment(aes(x = mean(avg_epa), y = mean(avg_wpa), xend = 0.5, yend = mean(avg_wpa))) +
+  geom_segment(aes(x = mean(avg_epa), y = mean(avg_wpa), xend = mean(avg_epa), yend = -0.05)) +
+  geom_segment(aes(x = mean(avg_epa), y = mean(avg_wpa), xend = -0.3, yend = mean(avg_wpa)))
+fg_model <- fourth_quarter_spikes %>%
+  filter(score_differential >= -3) %>%
+  select(epa, game_seconds_remaining, down, yardline_100, posteam_timeouts_remaining, score_differential, fg_prob)
+td_model <- fourth_quarter_spikes %>%
+  filter(score_differential <= -4) %>%
+  select(epa, game_seconds_remaining, down, yardline_100, posteam_timeouts_remaining, score_differential, td_prob)
+fg_model <- lm(epa ~ ., data = fg_model)
+td_model <- lm(epa ~ ., data = td_model)
+summary(fg_model)
+summary(td_model)
