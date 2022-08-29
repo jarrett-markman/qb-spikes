@@ -64,25 +64,6 @@ fourth_quarter_spikes %>%
   select(posteam, defteam, posteam_score, defteam_score, time, yrdln, epa, fg_prob, score_differential) %>%
   filter(score_differential > -3) %>%
   arrange(-fg_prob)
-fourth_quarter_spikes %>%
-  filter(score_differential >= -3) %>%
-  ggplot(aes(x=epa, y=fg_prob)) +
-  geom_point(color = 'black', shape = 1) +
-  geom_vline(xintercept = 0, color = 'red') +
-  geom_smooth(se = FALSE, color = "black", method = "lm") +
-  labs(x= 'EPA',
-       y='Field Goal Probability',
-       title = 'EPA and Field Goal Probability',
-       caption = 'Data: nflfastR')
-fourth_quarter_spikes %>%
-  filter(score_differential >= -8 & score_differential <=-4) %>%
-  ggplot(aes(x=epa, y=td_prob)) +
-  geom_point(color = 'black', shape = 1) +
-  geom_smooth(se = FALSE, color = 'black', method = 'lm') +
-  labs(x= 'EPA',
-       y='Touchdown Probability',
-       title = 'EPA and Touchdown Probability',
-       caption = 'Data: nflfastR')
 fourth_quarter_spikes <- fourth_quarter_spikes %>%
   left_join(teams_colors_logos, by = c("posteam" = "team_abbr"))
 second_quarter_spikes <- second_quarter_spikes %>%
