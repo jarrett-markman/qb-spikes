@@ -52,16 +52,6 @@ fourth_quarter_spikes %>%
 fourth_quarter_spikes <- fourth_quarter_spikes %>%
   left_join(teams_colors_logos, by = c("posteam" = "team_abbr"))
 fourth_quarter_spikes %>%
-  ggplot(aes(x=epa, y=wpa)) +
-  geom_image(aes(image = team_logo_espn), size = .05) +
-  geom_hline(yintercept = 0) +
-  geom_vline(xintercept = 0) +
-  labs(x = "Fourth Quarter Spike EPA",
-       y = "Fourth Quarter Spike WPA",
-       title = "EPA and WPA for Fourth Quarter Spikes",
-       caption = "Data: nflfastR") +
-  theme(plot.title = element_text(size = 12, face = "bold", hjust = 0.5))
-fourth_quarter_spikes %>%
   select(posteam, epa, wpa) %>%
   group_by(posteam) %>%
   summarise(avg_epa = mean(epa), avg_wpa = mean(wpa)) %>%
