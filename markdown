@@ -1,8 +1,6 @@
 ---
 title: "Why Quarterback Spikes Need to Change."
-output:
-  pdf_document: default
-  html_document: default
+output: pdf_document
 ---
 ## Abstract
 A quarterback spike is a strategy employed by every single NFL team, usually in low-clock scenarios for a variety of purposes. Such as stopping the clock for one final play, whether it be a field-goal attempt or one final offensive play that includes either a “Hail Mary” or a bunch of laterals in an unlikely attempt to score. Other times teams use it to stop the clock for whatever reason, whether it be their players are tired or they feel the clock is getting out of time. Teams prepare for 2-minute drills and late game scenarios, so why are they forced to use a spike to stop the clock and essentially throw an incompletion? 
