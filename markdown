@@ -139,3 +139,13 @@ td_prob <- .5
 new_data <- data.frame(game_seconds_remaining, down, yardline_100, posteam_timeouts_remaining, score_differential, td_prob)
 predict(td_model, new_data)
 ```
+``` {r, echo=FALSE}
+game_seconds_remaining <- 45
+down <- 1
+yardline_100 <- 40
+posteam_timeouts_remaining <- 0
+score_differential <- 1
+fg_prob <- .3
+new_data <- data.frame(game_seconds_remaining, down, yardline_100, posteam_timeouts_remaining, score_differential, fg_prob)
+predict(fg_model, new_data)
+```
