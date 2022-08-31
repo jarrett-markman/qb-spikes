@@ -43,6 +43,10 @@ fourth_quarter_spikes %>%
   select(posteam, defteam, time, yrdln, score_differential, epa, wpa, fg_prob) %>%
   filter(score_differential >= -3) %>%
   arrange(-fg_prob)
+fourth_quarter_spikes %>% 
+  select(posteam, defteam, time, yrdln, score_differential, epa, wpa, fg_prob) %>%
+  filter(score_differential >= -3) %>%
+  arrange(fg_prob)
 fourth_quarter_spikes %>%
   select(posteam, defteam, time, yrdln, score_differential, epa, wpa, td_prob) %>%
   filter(score_differential <= -4 & score_differential >= -8) %>%
