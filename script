@@ -57,6 +57,7 @@ fourth_quarter_spikes %>%
        caption = "Data: nflfastR") +
   theme(plot.title = element_text(size = 12, face = "bold", hjust = 0.5))
 ```
+
 Most of the data hovers in the negative EPA and WPA range.
 The red lines indicate the average EPA and WPA per spike, and are both below 0.
 Meaning that on an average spike in the past 10 years, it would have a lower win probability and expected points than the play before.
@@ -195,7 +196,7 @@ summary(fg_model)
 ```
 
 In order to spike the ball beneficially in a field goal score game, a team must have good field position and field goal probability.
-It makes sense for there to be negative coefficients for seconds remaining and the down because the margin for error grows larger with more time and a later down.
+It makes sense for there to be negative coefficients for seconds remaining and down because the margin for error grows larger with more time and a later down.
 Additionally, if a team has at least 1 timeout, there is absolutely no need to spike the ball.
 
 #### Touchdown Situation
@@ -204,10 +205,10 @@ Additionally, if a team has at least 1 timeout, there is absolutely no need to s
 summary(td_model)
 ```
 
-In a touchdown score game, the odds are already stacked against any team. In that situation, the model suggests than the more likely a touchdown is, the worse decision a spike is. By spiking the ball - or throwing an incompletion - that increases the likelihood of a turnover on downs and lowers the likelihood of a touchdown. The model is definitely flawed because it doesn't that timeouts remaining carries a positive coefficient, because, as stated, if there are any timeouts there's really no reason for a spike decision to be made. 
+In a touchdown score game, the odds are already stacked against any team. In that situation, the model suggests than the more likely a touchdown is, the worse decision a spike is. By spiking the ball - or throwing an incompletion - that increases the likelihood of a turnover on downs and lowers the likelihood of a touchdown. The model is definitely flawed because timeouts remaining carries a positive coefficient, because, as stated, if there are any timeouts there's really no reason for a spike decision to be made. 
 
 Let's say that a team has the ball on 1st down with 30 seconds to go on the opponents 8 yard line, down 1. 
-What's the predictive EPA? Also consider the fact I don't know the field goal probability so I'm estimating it at 70%.
+What's the predictive EPA? Field goal probability is estimated at 70%.
 
 ``` {r, echo = FALSE}
 game_seconds_remaining <- 30
@@ -220,7 +221,7 @@ new_data <- data.frame(game_seconds_remaining, down, yardline_100, posteam_timeo
 predict(fg_model, new_data)
 ```
 
-What about if they were down by 5 points instead of 1? Like with field goal probability I'm estimating the touchdown probability as 50%.
+What about if they were down by 5 points instead of 1? Touchdown probability is estimated at 50%.
 
 ``` {r, echo = FALSE}
 game_seconds_remaining <- 30
@@ -233,17 +234,17 @@ new_data <- data.frame(game_seconds_remaining, down, yardline_100, posteam_timeo
 predict(td_model, new_data)
 ```
 
-In different scenarios there's a drastic difference between a good spike and a bad spike. The biggest difference is that a field goal is so much more likely to be successful than a touchdown. The 16th NFL team last year in redzone TD% was the Rams with ~59%, with sacrificing that down the touchdown odds lower even more. A spike doesn't hurt that much when down by a field goal because a field goal is much more attainable. 
+In different scenarios there's a drastic difference between a good spike and a bad spike. The biggest difference is that a field goal is so much more likely to be successful than a touchdown. The 16th best NFL team last year in redzone TD% was the Rams with ~59%, sacrificing that down lowers the odds of a touchdown, increasing the likelihood of failure. A spike doesn't hurt that much when down by a field goal because a field goal is much more attainable. 
 
 In almost any scenario a quarterback spike is impractical. Spikes are used so frequently and so inefficiently when there are only really a select few examples when a spike is "acceptable." If the purpose of a spike in a field goal score game is to stop the clock in order to kick a field goal, that makes perfect sense. If a team is stopping the clock when they have a timeout or if there is a lot of time remaining it becomes less sensible. When down a touchdown, there's almost never a reason to spike the ball. Possibly to set up one final play but it never really makes any sense to just spike the ball to then continue the drive. As a team, you just purposefully threw an incompletion and are still trying to end up in the end zone. Spiking the ball with 30 seconds left only stunts the progress of the drive, forcing the team to - and letting the defense - reset, and then continue the drive with the same goal before the spike. It makes no sense.
 
 ## Conclusion 
 
-Most of the time a quarterback spike is a negative play. In almost any scenario in a touchdown-score game there is no reason to spike the ball. It's a purposeful incompletion that stunts the drive, allows the defense to regroup and the goal of the drive doesn't change. The offense is then given only 3 downs, with a lower likelihood to score, in addition to not running a play failing to get more yardage, possibly a touchdown, and possibly out of bounds - accomplishing that goal of stopping the clock. Stopping the clock for 1 second rather than 5 only to waste a down is not worth it. It's a purposeful incompletion, preventing the offense from gaining yardage or even finding any form of success.
+Most of the time a quarterback spike is a negative play. In almost any scenario in a touchdown-score game there is no reason to spike the ball. It's a purposeful incompletion that stunts the drive, allows the defense to regroup and the goal of the drive doesn't change. The offense is then given only 3 downs, with a lower likelihood to score, in addition to not running a play failing to get more yardage, possibly a touchdown, and possibly out of bounds - Which would accomplish that goal of stopping the clock. Stopping the clock for 1 second rather than 5 only to waste a down is not worth it. It's a purposeful incompletion, preventing the offense from gaining yardage or even finding any form of success.
 
-From all of the data from the past 10 years over half of the spikes had a negative EPA. About 90% of spikes in a touchdown score game had a negative EPA as well as about 60% of spikes in a field goal score game. In most scenarios there's no real reason to spike the ball. Most of the time the only applicable scenarios for a spike are for one final play. In most scenarios there's no reason to waste a down and throw a purposeful incompletion. The only real applicable scenario where a spike makes sense is to set up a field goal to win the game. Most of the time teams won't spike the ball with >5 seconds to kick a field goal because then there would be time left on the clock. So there's really only a small small margin of scenarios where spikes are truly applicable. Outside of a field goal to tie or win the game in the final seconds, any other scenario doesn't really make sense for a spike. 
+From all of the data from the past 10 years over half of the spikes had a negative EPA. About 90% of spikes in a touchdown score game had a negative EPA as well as about 60% of spikes in a field goal score game. In most scenarios there's no real reason to spike the ball. The only applicable scenario for a spike is for one final play. In almost all scenarios there's no reason to waste a down and throw a purposeful incompletion. The only real applicable scenario where a spike makes sense is to set up a field goal to win the game. Most of the time teams won't spike the ball with >5 seconds to kick a field goal because then there would be time left on the clock. So there's really only a small small margin of scenarios where spikes are truly applicable. Outside of a field goal to tie or win the game in the final seconds, any other scenario doesn't really make sense for a spike. 
 
-What if a team was down 1, had a 1st and 10 at the 40, with no timeouts and 45 seconds remaining? That should be about a 30% field goal probability.
+What if a team was down 1, had a 1st and 10 at the 40, with no timeouts and 45 seconds remaining? Assume 30% field goal probability.
 
 ``` {r, echo=FALSE}
 game_seconds_remaining <- 45
