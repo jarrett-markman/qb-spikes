@@ -86,3 +86,19 @@ fg_model <- lm(epa ~ ., data = fg_model)
 td_model <- lm(epa ~ ., data = td_model)
 summary(fg_model)
 summary(td_model)
+game_seconds_remaining <- 30
+down <- 1
+yardline_100 <- 8
+posteam_timeouts_remaining <- 0
+score_differential <- 1
+fg_prob <- .7
+new_data <- data.frame(game_seconds_remaining, down, yardline_100, posteam_timeouts_remaining, score_differential, fg_prob)
+predict(fg_model, new_data)
+game_seconds_remaining <- 30
+down <- 1
+yardline_100 <- 8
+posteam_timeouts_remaining <- 0
+score_differential <- 5
+td_prob <- .5
+new_data <- data.frame(game_seconds_remaining, down, yardline_100, posteam_timeouts_remaining, score_differential, td_prob)
+predict(td_model, new_data)
