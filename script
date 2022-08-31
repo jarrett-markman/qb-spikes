@@ -57,8 +57,7 @@ fourth_quarter_spikes %>%
        caption = "Data: nflfastR") +
   theme(plot.title = element_text(size = 12, face = "bold", hjust = 0.5))
 ```
-
-For 4th quarter spikes, a lot of the data hovers in the negative EPA and WPA range.
+Most of the data hovers in the negative EPA and WPA range.
 The red lines indicate the average EPA and WPA per spike, and are both below 0.
 Meaning that on an average spike in the past 10 years, it would have a lower win probability and expected points than the play before.
 
