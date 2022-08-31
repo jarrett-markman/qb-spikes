@@ -194,7 +194,7 @@ td_model <- lm(epa ~ ., data = td_model)
 summary(fg_model)
 ```
 
-In order to spike the ball beneficially in a field goal score game, a team but have good field position and field goal probability.
+In order to spike the ball beneficially in a field goal score game, a team must have good field position and field goal probability.
 It makes sense for there to be negative coefficients for seconds remaining and the down because the margin for error grows larger with more time and a later down.
 Additionally, if a team has at least 1 timeout, there is absolutely no need to spike the ball.
 
