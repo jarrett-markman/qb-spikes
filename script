@@ -160,7 +160,7 @@ fourth_quarter_spikes %>%
   geom_segment(aes(x = mean(avg_epa), y = mean(avg_wpa), xend = -0.3, yend = mean(avg_wpa))) 
 ```
 
-The Eagles, 49ers, Vikings and Chiefs all have some advantage when spiking the ball over the last 10 years. Many of the teams just hover around the mean EPA and WPA for the league with all but 5 teams ranging from -0.04 and -0.005 WPA and -.25 and .5 EPA.
+The Eagles, 49ers, Vikings and Chiefs all have some advantage when spiking the ball over the last 10 years. Many of the teams just hover around the mean EPA and WPA for the league with all but 5 teams ranging from -0.04 and -0.005 WPA and -.25 and .1 EPA.
 
 
 #### Step 7
