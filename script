@@ -123,7 +123,7 @@ With a high field goal probability, less than 3 point deficit and little time re
 This makes a lot of practical sense in game-time scenarios.
 If you can, it makes perfect sense to spike the ball - or throw an incompletion - before a field goal to set up a chance to win the game.
 
-#### Step 6:
+#### Step 5:
 Is there a way to make a multivariate linear regression model to predict the EPA of a spike?
  
 I want to create 2 different models, one for field goal score games, and one for touchdown score games.
